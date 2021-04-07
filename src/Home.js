@@ -1,25 +1,31 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import BlogList from "./BlogList";
 
 const Home = () => {
-	// let name = "Mario";
-	const [name, setName] = useState("Mario");
-	const [age, setAge] = useState(25);
+  const [blogs, setBlogs] = useState(null);
+  const [isLoading, setisLoading] = useState(true);
 
-	function handleClick() {
-		setName("Luigi");
-		setAge(30);
-		console.log(`Hello ${name}`);
-	}
+  // useEffect with empty dependency to only run it on load
+  useEffect(() => {
+    setTimeout(() => {
+      getBlogs().then((data) => setBlogs(data));
+      setisLoading(false);
+    }, 2000);
+  }, []);
 
-	return (
-		<div className="home">
-			<h2>Home Page</h2>
-			<p>
-				{name} is {age} years old
-			</p>
-			<button onClick={() => handleClick()}>Click me</button>
-		</div>
-	);
+  async function getBlogs() {
+    const res = await fetch("http://localhost:8000/blogs");
+    const AllTheBlogs = await res.json();
+
+    return AllTheBlogs;
+  }
+
+  return (
+    <div className="home">
+      {isLoading && <div className="loading">loading awesomeness... </div>}
+      {blogs && <BlogList blogs={blogs} title={"All Articles"} />}
+    </div>
+  );
 };
 
 export default Home;
