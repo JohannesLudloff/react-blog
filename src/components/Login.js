@@ -3,27 +3,24 @@ import { Container, Form, Button, Card, Alert } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 import { useHistory, Link } from "react-router-dom";
 
-const SignUp = () => {
+const Login = () => {
   const emailRef = useRef();
   const passwordRef = useRef();
-  const passwordConfirmRef = useRef();
-  const { signup } = useAuth();
+  const { login } = useAuth();
   const [err, setErr] = useState();
   const [loading, setLoading] = useState(false);
   const history = useHistory();
 
   async function handleSubmit(e) {
     e.preventDefault();
-    if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-      return setErr("Passwords do not match");
-    }
+
     try {
       setErr("");
       setLoading(true);
-      await signup(emailRef.current.value, passwordRef.current.value);
+      await login(emailRef.current.value, passwordRef.current.value);
       history.push("/");
     } catch {
-      setErr("Sorry! We couldn't create your account");
+      setErr("Sorry! We couldn't sign you in");
     }
     setLoading(false);
   }
@@ -32,7 +29,7 @@ const SignUp = () => {
     <Container className="mt-3 mw-50" style={{ maxWidth: "400px" }}>
       <Card>
         <Card.Body>
-          <h2 className="text-center mb-4">Sign Up</h2>
+          <h2 className="text-center mb-4">Log In</h2>
           {err && <Alert variant="danger">{err}</Alert>}
           <Form onSubmit={handleSubmit}>
             <Form.Group>
@@ -43,22 +40,21 @@ const SignUp = () => {
               <Form.Label>Password</Form.Label>
               <Form.Control type="password" ref={passwordRef} required autoComplete="off"></Form.Control>
             </Form.Group>
-            <Form.Group>
-              <Form.Label>Password Confirmation</Form.Label>
-              <Form.Control type="password" ref={passwordConfirmRef} required autoComplete="off"></Form.Control>
-            </Form.Group>
             <Button type="submit" disabled={loading} className="w-100">
-              Sign Up
+              Log In
             </Button>
           </Form>
+          <div className="w-100 text-center mt-2">
+            <Link to={"/forgotpassword"}>Forgot your password?</Link>
+          </div>
         </Card.Body>
       </Card>
       <div className="w-100 text-center mt-2">
-        <span> Already have an account? </span>
-        <Link to={"/login"}>Log In</Link>
+        <span> Need an account? </span>
+        <Link to={"/signup"}>Sign Up</Link>
       </div>
     </Container>
   );
 };
 
-export default SignUp;
+export default Login;

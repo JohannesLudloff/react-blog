@@ -30,8 +30,11 @@
 .navbar a {
   text-decoration: none;
 }
-.navbar a:hover svg path {
+.navbar svg:hover path {
   fill: var(--primary);
+}
+.navbar button:focus {
+  box-shadow: none;
 }
 
 /* blog previews / list */

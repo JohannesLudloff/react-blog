@@ -1,11 +1,13 @@
 import { useParams, useHistory } from "react-router-dom";
 import useFetch from "../useFetch";
 import { Trash } from "react-bootstrap-icons";
+import { useAuth } from "../contexts/AuthContext";
 
 const Blogpost = () => {
   const { id } = useParams();
   const { data: blog, error, isLoading } = useFetch("http://localhost:8000/blogs/" + id);
   const history = useHistory();
+  const { currentUser } = useAuth();
 
   function handleClick(e) {
     const options = {
@@ -26,9 +28,11 @@ const Blogpost = () => {
           <h2>{blog.title}</h2>
           <p>by {blog.author}</p>
           <div>{blog.body}</div>
-          <div className="float-right">
-            <Trash onClick={handleClick} color="grey" size={18} cursor="pointer" />
-          </div>
+          {currentUser && (
+            <div className="float-right">
+              <Trash onClick={handleClick} color="grey" size={18} cursor="pointer" />
+            </div>
+          )}
         </article>
       )}
     </div>
