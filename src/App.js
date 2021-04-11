@@ -1,5 +1,5 @@
 import Navbar from "./components/Navbar";
-import Home from "./Home";
+import Home from "./components/Home";
 import Create from "./components/Create";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Blogpost from "./components/BlogPost";
