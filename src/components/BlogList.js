@@ -10,7 +10,8 @@ const BlogList = ({ blogs, title }) => {
 						<h2>{blog.title}</h2>
 						<p>{blog.body.substring(0, 150) + " ..."}</p>
 						<p className="text-muted">
-							{blog.author}, {blog.created && new Date(Date.parse(blog.created)).toLocaleDateString("en-US")}
+							{blog.author}
+							{blog.created && ", " + new Date(Date.parse(blog.created)).toLocaleDateString("en-US")}
 						</p>
 					</Link>
 				</div>
