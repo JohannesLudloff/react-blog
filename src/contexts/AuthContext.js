@@ -4,38 +4,44 @@ import { auth } from "../firebase"; // import auth module
 const AuthContext = React.createContext();
 
 export function useAuth() {
-  return useContext(AuthContext);
+	return useContext(AuthContext);
 }
 
 export function AuthProvider({ children }) {
-  const [currentUser, setCurrentUser] = useState(""); // use state to store user
-  const [loading, setLoading] = useState(true);
+	const [currentUser, setCurrentUser] = useState(""); // use state to store user
+	const [loading, setLoading] = useState(true);
 
-  function signup(email, password) {
-    return auth.createUserWithEmailAndPassword(email, password); // use auth module to sign up user with email and pw
-  }
+	function signup(email, password) {
+		return auth.createUserWithEmailAndPassword(email, password); // use auth module to sign up user with email and pw
+	}
 
-  function login(email, password) {
-    return auth.signInWithEmailAndPassword(email, password);
-  }
-  function logout() {
-    return auth.signOut();
-  }
+	function login(email, password) {
+		return auth.signInWithEmailAndPassword(email, password);
+	}
+	function logout() {
+		return auth.signOut();
+	}
 
-  function resetPassword(email) {
-    return auth.sendPasswordResetEmail(email);
-  }
+	function resetPassword(email) {
+		return auth.sendPasswordResetEmail(email);
+	}
+	function updateEmail(email) {
+		return currentUser.updateEmail(email);
+	}
+	function updatePassword(password) {
+		return currentUser.updatePassword(password);
+	}
 
-  useEffect(() => {
-    // only run it once when mounting
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setCurrentUser(user);
-      setLoading(false);
-    }); // when authorisation state changes set the current user accordingly
-    return unsubscribe; // unsubscribes whenever component unmounts
-  }, []);
+	useEffect(() => {
+		// only run it once when mounting
+		const unsubscribe = auth.onAuthStateChanged((user) => {
+			setCurrentUser(user);
+			setLoading(false);
+		}); // when authorisation state changes set the current user accordingly
+		return unsubscribe; // unsubscribes whenever component unmounts
+	}, []);
 
-  const value = { currentUser, signup, login, logout, resetPassword };
+	const value = { currentUser, signup, login, logout, resetPassword, updateEmail, updatePassword };
 
-  return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;
+	return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;
 }

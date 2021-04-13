@@ -17,6 +17,13 @@
       "body": "What up people on the internet? This article will be about routing with react and how you can set up your routes so they are private and only show content when a user is logged in.\n\nTo be able to do that you need to set a seperate \"private Route\" Components that takes in all the props that are originally passed to the route itself and then hand it down to the route component which is inside of the private route. Then wenn passing the parameters to the original route you can implement a function to check if there is an authenticated user and if so then pass it on to the route and if not redirect the user back to the home or login screen.\n\nExport the function and voila you created your own private routes.\n\nCheers.\n\n",
       "author": "Johannes",
       "id": 5
+    },
+    {
+      "title": "This is the nex",
+      "body": "Inhalt 2",
+      "author": "Martin",
+      "created": "2021-04-13T09:05:10.217Z",
+      "id": 6
     }
   ]
 }
